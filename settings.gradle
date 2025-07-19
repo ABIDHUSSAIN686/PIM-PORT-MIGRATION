@@ -1,0 +1,7 @@
+rootProject.name = 'pim-port-migrations'
+include 'pim-domain'
+include 'port-domain'
+include 'pim-common'
+include 'pim-application'
+include 'port-application'
+

@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.5'
+    id 'com.google.cloud.tools.jib' version '3.3.1'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'com.upstartcommerce'
+version = '1.0'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    afterEvaluate {
+        dependencies {
+            implementation 'org.apache.camel.springboot:camel-spring-boot-starter:4.0.0'
+            implementation 'org.apache.camel.springboot:camel-kafka-starter:4.0.0'
+            implementation 'org.springframework.boot:spring-boot-starter'
+            compileOnly 'org.projectlombok:lombok'
+            annotationProcessor 'org.projectlombok:lombok'
+            testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        }
+
+        tasks.withType(Jar) {
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        }
+    }
+}
+
+springBoot {
+    mainClass = 'com.upstartcommerce.pimport.main'
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.0'
+    implementation 'org.springframework.kafka:spring-kafka'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'com.vladmihalcea:hibernate-types-52:2.9.7'
+    implementation 'org.apache.camel.springboot:camel-jackson-starter:4.0.0'
+    implementation 'org.modelmapper:modelmapper:3.1.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.postgresql:postgresql'
+    implementation 'com.google.cloud:google-cloud-pubsub:1.126.1'
+    implementation 'org.springframework.boot:spring-boot-starter-data-cassandra'
+    implementation 'com.datastax.oss:java-driver-core:4.14.1'
+    implementation project(":pim-application")
+    implementation project(":port-application")
+    implementation project(":pim-domain")
+    implementation project(":pim-common")
+    implementation project(":port-domain")
+}

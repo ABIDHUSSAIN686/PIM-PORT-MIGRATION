@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="15 seconds">
+    <property name="LOGS" value="./logs"/>
+    <variable name="UPSTART_LOG_LEVEL" value="${NC_UPSTART_LOG_LEVEL:-DEBUG}"/>
+    <variable name="UPSTART_SEARCH_LOG_LEVEL" value="${NC_UPSTART_SEARCH_LOG_LEVEL:-INFO}"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <Pattern>
+                %d{ISO8601} %-5level [%t] %logger{36}: %msg%n%throwable
+            </Pattern>
+        </encoder>
+    </appender>
+    <appender name="ASYNCSTDOUT" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="STDOUT"/>
+    </appender>
+    <!-- Cassandra and the datastax driver  -->
+    <logger name="org.apache.cassandra" level="ERROR"/>
+    <logger name="com.datastax.driver" level="ERROR"/>
+    <!-- Turn down Kafka noise -->
+    <logger name="org.apache.kafka" level="WARN"/>
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.hibernate.SQL" level="ERROR"/>
+    <!-- upstartcommerce -->
+    <logger name="com.upstartcommerce" level="INFO"/>
+    <logger name="com.upstartcommerce.pim.auth" level="WARN"/>
+    <!--    Enable for Postgres connection debug info-->
+    <!--    <logger name="com.zaxxer.hikari" level="DEBUG"/>-->
+    <!--    <logger name="com.zaxxer.hikari.pool.HikariPool" level="DEBUG"/>-->
+    <root level="INFO">
+        <appender-ref ref="ASYNCSTDOUT"/>
+    </root>
+</configuration>
